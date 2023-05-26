@@ -1,9 +1,13 @@
 package com.example.application.Backend.entity;
 
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
+import jakarta.validation.constraints.Email;
 
 
 @Entity
@@ -12,6 +16,8 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
+    @Email
+    private String email;
     private String address;
     
 
