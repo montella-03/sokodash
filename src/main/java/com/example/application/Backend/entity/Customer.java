@@ -23,9 +23,10 @@ public class Customer {
 
     public Customer() {
     }
-    public Customer(String name, String address) {
+    public Customer(String name,String email, String address) {
         this.name = name;
         this.address = address;
+        this.email = email;
     }
     //setters and getters
     public Long getId() {
@@ -47,9 +48,15 @@ public class Customer {
     public void setAddress(String address) {
         this.address= address;
     }
+    public String getEmail() {
+        return email;
+    }
+    public void setEmail(String email) {
+        this.email= email;
+    }
     //to string
     @Override
     public String toString() {
-        return "Customer [id=" + id + ", name=" + name + ", address=" + address + "]";
+        return "Customer [address=" + address + ", email=" + email + ", id=" + id + ", name=" + name + "]";
     }
 }
