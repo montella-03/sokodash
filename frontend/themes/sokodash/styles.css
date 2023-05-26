@@ -1,0 +1,18 @@
+@import url('./main-layout.css');    html {
+      --lumo-shade: hsl(214, 42%, 3%);
+      --lumo-shade-5pct: hsla(214, 42%, 3%, 0.05);
+      --lumo-shade-10pct: hsla(214, 42%, 3%, 0.1);
+      --lumo-shade-20pct: hsla(214, 42%, 3%, 0.2);
+      --lumo-shade-30pct: hsla(214, 42%, 3%, 0.3);
+      --lumo-shade-40pct: hsla(214, 42%, 3%, 0.4);
+      --lumo-shade-50pct: hsla(214, 42%, 3%, 0.5);
+      --lumo-shade-60pct: hsla(214, 42%, 3%, 0.6);
+      --lumo-shade-70pct: hsla(214, 42%, 3%, 0.7);
+      --lumo-shade-80pct: hsla(214, 42%, 3%, 0.8);
+      --lumo-shade-90pct: hsla(214, 42%, 3%, 0.9);
+
+    }
+
+    [theme~="dark"] {
+
+    }
