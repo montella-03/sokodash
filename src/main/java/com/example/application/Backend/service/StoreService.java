@@ -14,6 +14,7 @@ public interface StoreService {
     void updateProduct(ProductModel productModel,Long id);
     void deleteProduct(Long id);
     List<Product> findAll();
+    List<Product> findAll(String search);
     Product findById(Long id);
 
     //orders

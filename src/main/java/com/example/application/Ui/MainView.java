@@ -2,31 +2,49 @@ package com.example.application.Ui;
 
 import com.example.application.Backend.entity.Product;
 import com.example.application.Backend.service.StoreService;
+import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.Route;
 
 @Route("")
 public class MainView extends VerticalLayout {
 private final StoreService storeService;
-
-    Grid<Product> grid = new Grid<>(Product.class);
+    private Grid<Product> grid = new Grid<>(Product.class);
+    private TextField filterText = new TextField();
+    private FormView form;
     public MainView(StoreService storeService) {
         this.storeService = storeService;
 
 
         addClassName("list-view");
         setSizeFull();
+        configureFilter();
         configureGrid();
-        add(grid);
 
+        form = new FormView();
+        Div content = new Div(grid,form);
+        content.addClassName("content");
+        content.setSizeFull();
+
+        add(filterText,content);
         updateList();
         
 
     }
 
+    private void configureFilter() {
+        filterText.setPlaceholder("Filter by product name...");
+        filterText.setClearButtonVisible(true);
+        filterText.setValueChangeMode(ValueChangeMode.LAZY);
+        filterText.addValueChangeListener(e -> updateList());
+    }
+
     private void updateList() {
-        grid.setItems(storeService.findAll());
+        grid.setItems(storeService.findAll(filterText.getValue()));
     }
 
     private void configureGrid() {

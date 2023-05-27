@@ -68,7 +68,14 @@ public class StoreServiceImpl implements StoreService {
     public List<Product> findAll() {
         return productRepository.findAll();
     }
+//filtering products method
+    @Override
+    public List<Product> findAll(String search) {
+        return productRepository.findAll().stream().filter((e)->{
+            return e.getProductName().contains(search);
+        }).collect(Collectors.toList());
 
+    }
 
     //customer methods
     @Override
