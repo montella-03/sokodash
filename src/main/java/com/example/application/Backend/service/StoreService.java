@@ -13,7 +13,7 @@ public interface StoreService {
     void addProduct(ProductModel productModel);
     void updateProduct(ProductModel productModel,Long id);
     void deleteProduct(Long id);
-    List<ProductModel> findAll();
+    List<Product> findAll();
     Product findById(Long id);
 
     //orders
@@ -26,4 +26,6 @@ public interface StoreService {
     void updateCustomer(CustomerModel customerModel,Long id);
     void deleteCustomer(Long id);
     List<CustomerModel> getAll();
+
+    double currentUSD();
 }

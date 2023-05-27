@@ -65,11 +65,8 @@ public class StoreServiceImpl implements StoreService {
 
     }
     @Override
-    public List<ProductModel> findAll() {
-        List<Product> products = productRepository.findAll();
-        return products.stream().map((e)->{
-            return new ProductModel(e.getProductName(),e.getQuantity(),e.getPrice());
-        }).collect(Collectors.toList());
+    public List<Product> findAll() {
+        return productRepository.findAll();
     }
 
 
@@ -98,6 +95,14 @@ public class StoreServiceImpl implements StoreService {
             return new CustomerModel(e.getName(),e.getEmail(),e.getAddress());
         }).collect(Collectors.toList());
     }
+
+    @Override
+    public double currentUSD() {
+        //create a method that retries the current USD currency aganist Ksh?
+        //for now lets return a constant number
+        return 136.34;
+    }
+
     @Override
     public void deleteCustomer(Long id) {
         customerRepository.deleteById(id);
@@ -109,12 +114,11 @@ public class StoreServiceImpl implements StoreService {
     public void addOrder(OrderModel orderModel) {
         List<Model> productModels = orderModel.models();
         List<Product> list = productModels.stream().map((e)->{
-            Product product= Product.builder()
+            return Product.builder()
             .productName(e.productName())
             .quantity(checkQuantity(e.quantity(),e.productName()))
             .price(getPrice(e.productName()))
             .build();
-            return product;
              }).collect(Collectors.toList());
 
         Orders orders = Orders.builder()

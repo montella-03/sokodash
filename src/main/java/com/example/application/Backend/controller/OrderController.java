@@ -2,6 +2,8 @@ package com.example.application.Backend.controller;
 
 import com.example.application.Backend.model.OrderModel;
 import com.example.application.Backend.service.StoreService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,8 +18,9 @@ public class OrderController {
         this.storeService = storeService;
     }
     @PostMapping
-    public void addOrder(@RequestBody OrderModel orderModel){
+    public ResponseEntity<Void> addOrder(@RequestBody OrderModel orderModel){
         storeService.addOrder(orderModel);
+        return new ResponseEntity<>(HttpStatus.OK);
 
     }
 }
