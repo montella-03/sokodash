@@ -105,7 +105,7 @@ public class StoreServiceImpl implements StoreService {
 
     @Override
     public double currentUSD() {
-        //create a method that retries the current USD currency aganist Ksh?
+        //create a method that retries the current USD currency against Ksh?
         //for now lets return a constant number
         return 136.34;
     }

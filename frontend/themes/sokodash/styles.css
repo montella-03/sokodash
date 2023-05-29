@@ -14,40 +14,14 @@
 
     }
 
-    [theme~="DARK"]
-    vaadin-scroller[slot="drawer"] {
-      padding: var(--lumo-space-s);
+    .list-view .content{
+    display: flex;}
+     .formView{
+    flex:2;
     }
 
-    [slot="drawer"]:is(header, footer) {
-      display: flex;
-      align-items: center;
-      gap: var(--lumo-space-s);
-      padding: var(--lumo-space-s) var(--lumo-space-m);
-      min-height: var(--lumo-size-xl);
-      box-sizing: border-box;
-    }
 
-    [slot="drawer"]:is(header, footer):is(:empty) {
-      display: none;
-    }
 
-    .list-view .product-grid{
-        flex:2;
-        }
-
-        .list-view.formView
-        flex:1;
-        var(--lumo-space-m);
-        }
-        .list-view.content{
-            display: flex;
-        }
-        @media all and (max-width: 1100px) {
-        .list-view.editing.toolbar,
-        .list-view.editing.formView{
-        display: none;
-        }
 
 
 

@@ -2,7 +2,6 @@ package com.example.application.Ui;
 
 import com.example.application.Backend.entity.Product;
 import com.example.application.Backend.service.StoreService;
-import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -32,8 +31,15 @@ private final StoreService storeService;
 
         add(filterText,content);
         updateList();
+        closeEditor();
         
 
+    }
+
+    private void closeEditor() {
+        form.setProduct(null);
+        form.setVisible(false);
+        removeClassName("editing");
     }
 
     private void configureFilter() {
@@ -53,11 +59,24 @@ private final StoreService storeService;
         grid.setColumns("id","productName", "quantity", "price");
         grid.addColumn(product ->"$  " + (int)((product.getQuantity() * product.getPrice())/currentUSD()))
                 .setHeader("Expected Revenue");
+        grid.getColumns().forEach(col -> col.setAutoWidth(true));
+        grid.asSingleSelect().addValueChangeListener(event -> editProduct(event.getValue()));
 
 
+    }
+
+    private void editProduct(Product value) {
+        if (value == null) {
+            closeEditor();
+        } else {
+            form.setProduct(value);
+            form.setVisible(true);
+            addClassName("editing");
+        }
     }
 
     private double currentUSD() {
         return storeService.currentUSD();
     }
 }
+//create a method to collect the current usd exchange to ksh?
