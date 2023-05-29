@@ -2,11 +2,13 @@ package com.example.application.Backend.service;
 
 import java.util.List;
 
+import com.example.application.Backend.entity.Customer;
 import com.example.application.Backend.entity.Orders;
 import com.example.application.Backend.entity.Product;
 import com.example.application.Backend.model.CustomerModel;
 import com.example.application.Backend.model.OrderModel;
 import com.example.application.Backend.model.ProductModel;
+import com.vaadin.flow.component.Component;
 
 public interface StoreService {
     //products
@@ -26,7 +28,10 @@ public interface StoreService {
     void addCustomer(CustomerModel customerModel);
     void updateCustomer(CustomerModel customerModel,Long id);
     void deleteCustomer(Long id);
-    List<CustomerModel> getAll();
+    List<Customer> getAll();
+    List<Customer> getAll(String search);
 
     double currentUSD();
+
+    int countProducts();
 }

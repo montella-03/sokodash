@@ -96,11 +96,16 @@ public class StoreServiceImpl implements StoreService {
         
     }
     @Override
-    public List<CustomerModel> getAll() {
-        List<Customer> customers = customerRepository.findAll();
-        return customers.stream().map((e)->{
-            return new CustomerModel(e.getName(),e.getEmail(),e.getAddress());
+    public List<Customer> getAll(String search) {
+        return customerRepository.findAll().stream().filter((e)->{
+            return e.getName().contains(search);
         }).collect(Collectors.toList());
+
+    }
+    @Override
+    public List<Customer> getAll() {
+        return customerRepository.findAll();
+
     }
 
     @Override
@@ -175,4 +180,8 @@ public class StoreServiceImpl implements StoreService {
         return orderRepository.findAll();
     }
 
+    @Override
+    public int countProducts() {
+        return productRepository.findAll().size();
+    }
 }

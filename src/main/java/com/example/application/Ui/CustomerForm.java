@@ -1,6 +1,6 @@
 package com.example.application.Ui;
 
-import com.example.application.Backend.entity.Product;
+import com.example.application.Backend.entity.Customer;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentEvent;
 import com.vaadin.flow.component.ComponentEventListener;
@@ -14,22 +14,22 @@ import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.shared.Registration;
 
-public class FormView extends FormLayout {
-    TextField productName = new TextField("productName");
-    TextField quantity = new TextField("quantity");
-    TextField price = new TextField("price");
+public class CustomerForm extends FormLayout {
+    TextField name= new TextField("name");
+    TextField email = new TextField("email");
+    TextField address = new TextField("address");
 
     Button save = new Button("Save");
     Button delete = new Button("Delete");
     Button close = new Button("Cancel");
-    Binder<Product> productBinder = new BeanValidationBinder<>(Product.class);
+    Binder<Customer> binder = new BeanValidationBinder<>(Customer.class);
 
-    public FormView() {
-        addClassName("formView");
-        productBinder.bindInstanceFields(this);
-        add(productName,
-                quantity,
-                price,
+    public CustomerForm() {
+        addClassName("CustomerView");
+        binder.bindInstanceFields(this);
+        add(name,
+                email,
+                address,
                 createButtonsLayout());
     }
 
@@ -41,52 +41,52 @@ public class FormView extends FormLayout {
         save.addClickShortcut(Key.ENTER);
         close.addClickShortcut(Key.ESCAPE);
         save.addClickListener(event -> validateAndSave());
-        delete.addClickListener(event -> fireEvent(new DeleteEvent(this, productBinder.getBean())));
+        delete.addClickListener(event -> fireEvent(new DeleteEvent(this, binder.getBean())));
         close.addClickListener(event -> fireEvent(new CloseEvent(this)));
-        productBinder.addStatusChangeListener(e -> save.setEnabled(productBinder.isValid()));
+        binder.addStatusChangeListener(e -> save.setEnabled(binder.isValid()));
         return new HorizontalLayout(save, delete, close);
 
 
     }
 
     private void validateAndSave() {
-        if (productBinder.isValid()) {
-            fireEvent(new SaveEvent(this, productBinder.getBean()));
+        if (binder.isValid()) {
+            fireEvent(new SaveEvent(this, binder.getBean()));
         }
     }
 
-    public void setProduct(Product product) {
-        productBinder.setBean(product);
+    public void setCustomer(Customer customer) {
+        binder.setBean(customer);
     }
 
 
-    public static abstract class ProductFormEvent extends ComponentEvent<FormView> {
-        private Product product;
+    public static abstract class CustomerFormEvent extends ComponentEvent<CustomerForm> {
+        private Customer customer;
 
-        protected ProductFormEvent(FormView source, Product product) {
+        protected CustomerFormEvent(CustomerForm source, Customer customer) {
             super(source, false);
-            this.product = product;
+            this.customer = customer;
         }
 
-        public Product getProduct() {
-            return product;
-        }
-    }
-
-    public static class SaveEvent extends ProductFormEvent {
-        SaveEvent(FormView source, Product product) {
-            super(source, product);
+        public Customer getCustomer() {
+            return customer;
         }
     }
 
-    public static class DeleteEvent extends ProductFormEvent {
-        DeleteEvent(FormView source, Product product) {
-            super(source, product);
+    public static class SaveEvent extends CustomerFormEvent {
+        SaveEvent(CustomerForm source,Customer customer) {
+            super(source, customer);
         }
     }
 
-    public static class CloseEvent extends ProductFormEvent {
-        CloseEvent(FormView source) {
+    public static class DeleteEvent extends CustomerFormEvent {
+        DeleteEvent(CustomerForm source, Customer customer) {
+            super(source, customer);
+        }
+    }
+
+    public static class CloseEvent extends CustomerFormEvent {
+        CloseEvent(CustomerForm source) {
             super(source, null);
         }
     }

@@ -1,7 +1,7 @@
 package com.example.application.Ui;
 
-import com.example.application.Backend.entity.Product;
-import com.example.application.Backend.model.ProductModel;
+import com.example.application.Backend.entity.Customer;
+import com.example.application.Backend.model.CustomerModel;
 import com.example.application.Backend.service.StoreService;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
@@ -10,21 +10,21 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.value.ValueChangeMode;
+import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import jakarta.annotation.security.PermitAll;
 
-@Route(value = "", layout = MainLayout.class)
+@Route(value = "customers", layout = MainLayout.class)
+@PageTitle("Customers")
 @PermitAll
-public class MainView extends VerticalLayout {
-private final StoreService storeService;
-    private Grid<Product> grid = new Grid<>(Product.class);
+public class CustomersView extends VerticalLayout {
+    private final StoreService storeService;
+    private Grid<Customer> grid = new Grid<>(Customer.class);
     private TextField filterText = new TextField();
-    private FormView form;
-    public MainView(StoreService storeService) {
+    private CustomerForm form;
+    public CustomersView(StoreService storeService) {
         this.storeService = storeService;
-
-
-        addClassName("list-view");
+        addClassName("customers");
         setSizeFull();
         configureGrid();
         configureForm();
@@ -32,27 +32,27 @@ private final StoreService storeService;
         add(getToolbar(),getContent());
         updateList();
         closeEditor();
-        
+
 
     }
 
     private Component getToolbar() {
-        filterText.setPlaceholder("Filter by name...");
+        filterText.setPlaceholder("Search customer...");
         filterText.setClearButtonVisible(true);
         filterText.setValueChangeMode(ValueChangeMode.LAZY);
         filterText.addValueChangeListener(e -> updateList());
 
-        Button addProductButton = new Button("Add product");
-        addProductButton.addClickListener(click -> addProduct());
+        Button addCustomerButton = new Button("Add customer");
+        addCustomerButton.addClickListener(click -> addCustomer());
 
-        var toolbar = new HorizontalLayout(filterText, addProductButton);
+        var toolbar = new HorizontalLayout(filterText, addCustomerButton);
         toolbar.addClassName("toolbar");
         return toolbar;
     }
 
-    private void addProduct() {
+    private void addCustomer() {
         grid.asSingleSelect().clear();
-        editProduct(new Product());
+        editCustomer(new Customer());
     }
 
     private HorizontalLayout getContent() {
@@ -65,65 +65,62 @@ private final StoreService storeService;
     }
 
     private void configureForm() {
-        form = new FormView();
+        form = new CustomerForm();
         form.setWidth("25em");
-        form.addSaveListener( this::saveProduct);
-        form.addDeleteListener(this::deleteProduct);
+        form.addSaveListener( this::saveCustomer);
+        form.addDeleteListener(this::deleteCustomer);
         form.addCloseListener( e -> closeEditor());
     }
 
-    private void deleteProduct(FormView.DeleteEvent deleteEvent) {
-        storeService.deleteProduct(deleteEvent.getProduct().getId());
+    private void deleteCustomer(CustomerForm.DeleteEvent deleteEvent) {
+        storeService.deleteCustomer(deleteEvent.getCustomer().getId());
         updateList();
         closeEditor();
     }
 
-    private void saveProduct(FormView.SaveEvent saveEvent) {
-        ProductModel productModel = new ProductModel(
-                saveEvent.getProduct().getProductName(),
-                saveEvent.getProduct().getQuantity(),
-                saveEvent.getProduct().getPrice()
+    private void saveCustomer(CustomerForm.SaveEvent saveEvent) {
+        CustomerModel customerModel = new CustomerModel(
+                saveEvent.getCustomer().getName(),
+                saveEvent.getCustomer().getEmail(),
+                saveEvent.getCustomer().getAddress()
+
         );
-        storeService.addProduct(productModel);
+        storeService.addCustomer(customerModel);
         updateList();
         closeEditor();
     }
 
 
     private void closeEditor() {
-        form.setProduct(null);
+        form.setCustomer(null);
         form.setVisible(false);
         removeClassName("editing");
     }
 
     private void updateList() {
-        grid.setItems(storeService.findAll(filterText.getValue()));
+        grid.setItems(storeService.getAll(filterText.getValue()));
     }
 
     private void configureGrid() {
         grid.addClassName("product-grid");
         grid.setSizeFull();
-        grid.setColumns("id","productName", "quantity", "price");
-        grid.addColumn(product ->"$  " + (int)((product.getQuantity() * product.getPrice())/currentUSD()))
-                .setHeader("Expected Revenue");
+        grid.setColumns("id","name","email", "address");
         grid.getColumns().forEach(col -> col.setAutoWidth(true));
-        grid.asSingleSelect().addValueChangeListener(event -> editProduct(event.getValue()));
+        grid.asSingleSelect().addValueChangeListener(event -> editCustomer(event.getValue()));
 
 
     }
 
-    private void editProduct(Product value) {
+    private void editCustomer(Customer value) {
         if (value == null) {
             closeEditor();
         } else {
-            form.setProduct(value);
+            form.setCustomer(value);
             form.setVisible(true);
             addClassName("editing");
         }
     }
 
-    private double currentUSD() {
-        return storeService.currentUSD();
-    }
 }
-//create a method to collect the current usd exchange to ksh?
+
+
