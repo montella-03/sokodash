@@ -20,16 +20,17 @@ public class StatisticsView extends VerticalLayout {
         this.storeService = storeService;
         addClassName("statistics-view");
         setDefaultHorizontalComponentAlignment(Alignment.CENTER);
+
         add(getProductsCount(),getTotalPriceChart());
     }
 
-    private Component getTotalPriceChart() {
+    private Component getProductsCount() {
         Span span = new Span(storeService.countProducts()+" Products");
         span.addClassNames("mt-5", "text-xl", "text-center");
         return span;
     }
 
-    private Component getProductsCount() {
+    private Component getTotalPriceChart() {
         Chart chart = new Chart(ChartType.BUBBLE);
         chart.getConfiguration().setTitle("Total price of products");
         DataSeries dataSeries = new DataSeries();

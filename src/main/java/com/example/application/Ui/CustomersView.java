@@ -5,6 +5,7 @@ import com.example.application.Backend.model.CustomerModel;
 import com.example.application.Backend.service.StoreService;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -22,6 +23,7 @@ public class CustomersView extends VerticalLayout {
     private Grid<Customer> grid = new Grid<>(Customer.class);
     private TextField filterText = new TextField();
     private CustomerForm form;
+    ConfirmDialog confirmDialog = new ConfirmDialog();
     public CustomersView(StoreService storeService) {
         this.storeService = storeService;
         addClassName("customers");
@@ -73,9 +75,20 @@ public class CustomersView extends VerticalLayout {
     }
 
     private void deleteCustomer(CustomerForm.DeleteEvent deleteEvent) {
-        storeService.deleteCustomer(deleteEvent.getCustomer().getId());
-        updateList();
-        closeEditor();
+        confirmDialog.setHeader("Delete Customer");
+        confirmDialog.setText("Are you sure you want to delete this customer?");
+        confirmDialog.open();
+        confirmDialog.setConfirmButton("Delete", event -> {
+            storeService.deleteCustomer(deleteEvent.getCustomer().getId());
+            updateList();
+            closeEditor();
+            confirmDialog.close();
+
+        });
+        confirmDialog.setCancelButton("Cancel", event -> {
+            confirmDialog.close();
+        });
+
     }
 
     private void saveCustomer(CustomerForm.SaveEvent saveEvent) {

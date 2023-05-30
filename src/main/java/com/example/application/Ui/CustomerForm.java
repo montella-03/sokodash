@@ -7,6 +7,7 @@ import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.TextField;
@@ -23,6 +24,7 @@ public class CustomerForm extends FormLayout {
     Button delete = new Button("Delete");
     Button close = new Button("Cancel");
     Binder<Customer> binder = new BeanValidationBinder<>(Customer.class);
+
 
     public CustomerForm() {
         addClassName("CustomerView");

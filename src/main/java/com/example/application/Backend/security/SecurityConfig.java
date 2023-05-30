@@ -17,17 +17,16 @@ public class SecurityConfig extends VaadinWebSecurity {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests(authz -> authz
-                .requestMatchers("/images/*.png").permitAll());  // <3>
+        http.authorizeHttpRequests(auth -> auth
+                .requestMatchers("/images/*.png").permitAll());
         super.configure(http);
-        setLoginView(http, LoginView.class); // <4>
+        setLoginView(http, LoginView.class);
     }
 
     @Bean
-    public UserDetailsService users() {
+     UserDetailsService users() {
         UserDetails user = User.builder()
                 .username("user")
-                // password = password with this hash, don't tell anybody :-)
                 .password("{bcrypt}$2a$10$GRLdNijSQMUvl/au9ofL.eDwmoohzzS7.rmNSJZ.0FxO/BTk76klW")
                 .roles("USER")
                 .build();
@@ -36,6 +35,6 @@ public class SecurityConfig extends VaadinWebSecurity {
                 .password("{bcrypt}$2a$10$GRLdNijSQMUvl/au9ofL.eDwmoohzzS7.rmNSJZ.0FxO/BTk76klW")
                 .roles("USER", "ADMIN")
                 .build();
-        return new InMemoryUserDetailsManager(user, admin); // <5>
+        return new InMemoryUserDetailsManager(user, admin);
     }
 }

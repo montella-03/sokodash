@@ -6,8 +6,10 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.BeforeEnterListener;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.auth.AnonymousAllowed;
 
 @Route(value = "login")
+@AnonymousAllowed
 public class LoginView extends VerticalLayout implements BeforeEnterListener {
     private LoginForm loginForm = new LoginForm();
     public LoginView() {
@@ -16,7 +18,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterListener {
         setJustifyContentMode(JustifyContentMode.CENTER);
         loginForm.setAction("login");
 
-        add(new H1("sokodash ltd"), loginForm);
+        add(new H1("Welcome"), loginForm);
     }
     @Override
     public void beforeEnter(BeforeEnterEvent beforeEnterEvent) {

@@ -4,7 +4,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 import jakarta.annotation.security.PermitAll;
 
-@Route(value = "about", layout = MainLayout.class)
+@Route(value = "task", layout = MainLayout.class)
 @PermitAll
-public class AboutView  extends VerticalLayout {
+public class TaskView extends VerticalLayout {
 }

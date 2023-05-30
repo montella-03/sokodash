@@ -5,6 +5,7 @@ import com.example.application.Backend.model.ProductModel;
 import com.example.application.Backend.service.StoreService;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -20,6 +21,7 @@ private final StoreService storeService;
     private Grid<Product> grid = new Grid<>(Product.class);
     private TextField filterText = new TextField();
     private FormView form;
+    ConfirmDialog confirmDialog = new ConfirmDialog();
     public MainView(StoreService storeService) {
         this.storeService = storeService;
 
@@ -73,9 +75,19 @@ private final StoreService storeService;
     }
 
     private void deleteProduct(FormView.DeleteEvent deleteEvent) {
-        storeService.deleteProduct(deleteEvent.getProduct().getId());
-        updateList();
-        closeEditor();
+
+        confirmDialog.setHeader("You sure?,Confirm delete");
+        confirmDialog.setText("Are you sure you want to delete this product?");
+        confirmDialog.open();
+        confirmDialog.setConfirmButton("Delete", event -> {
+            storeService.deleteProduct(deleteEvent.getProduct().getId());
+            updateList();
+            closeEditor();
+            confirmDialog.close();
+        });
+        confirmDialog.setCancelButton("Cancel", event -> {
+            confirmDialog.close();
+        });
     }
 
     private void saveProduct(FormView.SaveEvent saveEvent) {
