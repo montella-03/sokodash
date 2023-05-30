@@ -1,1 +1,2 @@
-<img width="821" alt="Screenshot 2023-05-29 164815" src="https://github.com/montella-03/sokodash/assets/83244477/498c9f11-ac0f-4d02-bdf2-14d38c031cd5">
+
+<img width="928" alt="Screenshot 2023-05-30 160000" src="https://github.com/montella-03/sokodash/assets/83244477/692770c4-68b9-4acd-a1c5-053194e9a109">
