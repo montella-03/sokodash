@@ -20,7 +20,7 @@ public interface StoreService {
     Product findById(Long id);
 
     //orders
-    void addOrder(OrderModel orderModel);
+    Orders addOrder(OrderModel orderModel);
     void deleteOrder(Long id);
     List<Orders> orders();
 

@@ -123,29 +123,34 @@ public class StoreServiceImpl implements StoreService {
     //order methods
     @Transactional
     @Override
-    public void addOrder(OrderModel orderModel) {
-        List<Model> productModels = orderModel.models();
-        List<Product> list = productModels.stream().map((e)->{
-            return Product.builder()
-            .productName(e.productName())
-            .quantity(checkQuantity(e.quantity(),e.productName()))
-            .price(getPrice(e.productName()))
-            .build();
-             }).collect(Collectors.toList());
-
+    public Orders addOrder(OrderModel orderModel) {
+        Model model= orderModel.models();
         Orders orders = Orders.builder()
         .customerId(orderModel.customerId())
         .orderDate(Instant.now())
-        .products(list)
-        .build();
-        double total;
-        total = 0.0;
-        for(Product t:list){
-                    total += t.getPrice()*t.getQuantity();
-             }
-                orders.setAmount(total);
+        .products(new Product(getProductId(model.productName()),model.productName(),
+                checkQuantity(model.quantity(), model.productName()),
+                getProductPrice(model.productName())))
+                .amount(getProductPrice(model.productName())* model.quantity())
+                .build();
+
         orderRepository.save(orders);
+        return orders;
         
+    }
+
+    private Long getProductId(String s) {
+        Product c = productRepository.findByProductName(s).orElseThrow(
+                ()->new RuntimeException("Product price unavailable")
+        );
+        return c.getId();
+    }
+
+    private Double getProductPrice(String s) {
+        Product c = productRepository.findByProductName(s).orElseThrow(
+            ()->new RuntimeException("Product price unavailable")
+        );
+        return c.getPrice();
     }
 
     private int checkQuantity(int quantity,String name) {
@@ -159,14 +164,6 @@ public class StoreServiceImpl implements StoreService {
         c.setQuantity(c.getQuantity()-quantity);
         productRepository.save(c);
         return quantity;
-    }
-
-    private Double getPrice(String name) {
-    
-        Product c = productRepository.findByProductName(name).orElseThrow(
-            ()->new RuntimeException("Product price unavailable")
-        );
-        return c.getPrice();
     }
 
     @Override
