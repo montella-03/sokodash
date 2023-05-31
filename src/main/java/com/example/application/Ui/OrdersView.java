@@ -22,17 +22,23 @@ public class OrdersView extends VerticalLayout {
         this.storeService = storeService;
         addClassName("orders-view");
         setSizeFull();
-
         add(configureGrid());
+
     }
 
     private Component configureGrid() {
-        ordersGrid.addClassName("orders-grid");
+        ordersGrid.setClassName("orders-grid");
         ordersGrid.setSizeFull();
-        ordersGrid.setColumns("orderId", "customerId", "orderDate", "products", "amount");
-        ordersGrid.addColumn((ValueProvider<Orders, String>) orders -> orders.getProducts().getProductName()).setHeader("Product Name");
+        ordersGrid.setColumns("orderId", "orderDate",
+                "amount");
+        ordersGrid.addColumn(orders -> orders.getProducts().getProductName())
+                .setHeader("Product");
+        ordersGrid.addColumn(orders -> storeService.getCustomer(orders.getCustomerId()))
+                .setHeader("Customer");
         ordersGrid.getColumns().forEach(col -> col.setAutoWidth(true));
         ordersGrid.setItems(storeService.orders());
-        return new VerticalLayout(ordersGrid);
+        return ordersGrid;
     }
+
+
 }

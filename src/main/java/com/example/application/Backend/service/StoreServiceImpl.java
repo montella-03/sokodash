@@ -125,45 +125,33 @@ public class StoreServiceImpl implements StoreService {
     @Override
     public Orders addOrder(OrderModel orderModel) {
         Model model= orderModel.models();
+        //getting products details
+        Product product = productRepository.findByProductName(model.productName()).orElseThrow(
+            ()->new RuntimeException("Product unavailable")
+        );
         Orders orders = Orders.builder()
         .customerId(orderModel.customerId())
         .orderDate(Instant.now())
-        .products(new Product(getProductId(model.productName()),model.productName(),
-                checkQuantity(model.quantity(), model.productName()),
-                getProductPrice(model.productName())))
-                .amount(getProductPrice(model.productName())* model.quantity())
-                .build();
+        .products(new Product(product.getId(),product.getProductName(),
+                checkQuantity(model.quantity(), product.getQuantity()),
+                product.getPrice()))
+        .amount(model.quantity()*product.getPrice())
+        .build();
+        //updating product quantity
+        product.setQuantity(product.getQuantity()-model.quantity());
+        productRepository.save(product);
 
         orderRepository.save(orders);
         return orders;
         
     }
 
-    private Long getProductId(String s) {
-        Product c = productRepository.findByProductName(s).orElseThrow(
-                ()->new RuntimeException("Product price unavailable")
-        );
-        return c.getId();
-    }
+    private int checkQuantity(int productQ,int stock){
+     if(stock<productQ){
+         throw new RuntimeException("Product out of stock");
+     }
+     return productQ;
 
-    private Double getProductPrice(String s) {
-        Product c = productRepository.findByProductName(s).orElseThrow(
-            ()->new RuntimeException("Product price unavailable")
-        );
-        return c.getPrice();
-    }
-
-    private int checkQuantity(int quantity,String name) {
-        Product c = productRepository.findByProductName(name).orElseThrow(
-            ()->new RuntimeException("Product  unavailable")
-        );
-
-        if(quantity<0||quantity>c.getQuantity()){
-            throw new RuntimeException("Quantity cannot be negative");
-        }
-        c.setQuantity(c.getQuantity()-quantity);
-        productRepository.save(c);
-        return quantity;
     }
 
     @Override
@@ -180,5 +168,11 @@ public class StoreServiceImpl implements StoreService {
     @Override
     public int countProducts() {
         return productRepository.findAll().size();
+    }
+
+    @Override
+    public String getCustomer(Long customerId) {
+        Customer customer = customerRepository.findById(customerId).orElseThrow();
+        return customer.getName();
     }
 }

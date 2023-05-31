@@ -7,6 +7,8 @@ import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
@@ -99,6 +101,10 @@ private final StoreService storeService;
         storeService.addProduct(productModel);
         updateList();
         closeEditor();
+        Notification notification = Notification
+                .show("Product saved successfully");
+        notification.addThemeVariants(NotificationVariant.LUMO_PRIMARY);
+        notification.setPosition(Notification.Position.TOP_CENTER);
     }
 
 

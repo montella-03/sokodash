@@ -9,6 +9,7 @@ import com.example.application.Backend.model.CustomerModel;
 import com.example.application.Backend.model.OrderModel;
 import com.example.application.Backend.model.ProductModel;
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.grid.Grid;
 
 public interface StoreService {
     //products
@@ -34,4 +35,6 @@ public interface StoreService {
     double currentUSD();
 
     int countProducts();
+
+    String getCustomer(Long customerId);
 }
