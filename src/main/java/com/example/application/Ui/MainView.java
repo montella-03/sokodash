@@ -78,7 +78,7 @@ private final StoreService storeService;
 
     private void deleteProduct(FormView.DeleteEvent deleteEvent) {
 
-        confirmDialog.setHeader("You sure?,Confirm delete");
+        confirmDialog.setHeader("Confirm delete");
         confirmDialog.setText("Are you sure you want to delete this product?");
         confirmDialog.open();
         confirmDialog.setConfirmButton("Delete", event -> {
