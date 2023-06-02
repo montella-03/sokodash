@@ -1,7 +1,6 @@
 package com.example.application.Ui;
 
 import com.example.application.Backend.security.SecurityService;
-import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.button.Button;
@@ -88,7 +87,7 @@ public class MainLayout extends AppLayout {
     }
 
     private HorizontalLayout createCustomers() {
-        RouterLink view = new RouterLink("CUSTOMERS", CustomersView.class);
+        RouterLink view = new RouterLink("Employees", CustomersView.class);
         view.setHighlightCondition(HighlightConditions.sameLocation());
         view.addClassNames("font-italic");
         Icon icon = new Icon(VaadinIcon.USERS);
