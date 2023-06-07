@@ -2,6 +2,7 @@ package com.example.application.Ui;
 
 import com.example.application.Backend.service.StoreService;
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.board.Board;
 import com.vaadin.flow.component.charts.Chart;
 import com.vaadin.flow.component.charts.model.ChartType;
 import com.vaadin.flow.component.charts.model.DataSeries;

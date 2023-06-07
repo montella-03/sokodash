@@ -40,7 +40,10 @@ public class FormView extends FormLayout {
 
         save.addClickShortcut(Key.ENTER);
         close.addClickShortcut(Key.ESCAPE);
-        save.addClickListener(event -> validateAndSave());
+        save.addClickListener(event ->validateAndSave());
+
+
+
         delete.addClickListener(event -> fireEvent(new DeleteEvent(this, productBinder.getBean())));
         close.addClickListener(event -> fireEvent(new CloseEvent(this)));
         productBinder.addStatusChangeListener(e -> save.setEnabled(productBinder.isValid()));
