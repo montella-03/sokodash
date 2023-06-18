@@ -10,7 +10,9 @@ import com.example.application.Backend.model.CustomerModel;
 import com.example.application.Backend.model.Model;
 import com.example.application.Backend.model.OrderModel;
 import com.example.application.Backend.model.ProductModel;
+import com.example.application.Backend.specificationData.ProductSpecification;
 import jakarta.transaction.Transactional;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -36,6 +38,15 @@ public class StoreServiceImpl implements StoreService {
     }
 
     //product methods
+
+
+    @Override
+    public List<Product> search(String search) {
+        Specification<Product> spec = Specification.where(ProductSpecification.hasCategory(search))
+                .or(ProductSpecification.hasName(search))
+                .or(ProductSpecification.hasPrice(Double.parseDouble(search)));
+        return productRepository.findAll(spec);
+    }
 
     @Override
     public void addProduct(ProductModel productModel) {

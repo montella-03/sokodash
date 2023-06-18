@@ -19,6 +19,7 @@ public interface StoreService {
     List<Product> findAll();
     List<Product> findAll(String search);
     Product findById(Long id);
+    List<Product> search(String search);
 
     //orders
     Orders addOrder(OrderModel orderModel);

@@ -115,7 +115,7 @@ private final StoreService storeService;
     }
 
     private void updateList() {
-        grid.setItems(storeService.findAll(filterText.getValue()));
+        grid.setItems(storeService.search(filterText.getValue()));
     }
 
     private void configureGrid() {
