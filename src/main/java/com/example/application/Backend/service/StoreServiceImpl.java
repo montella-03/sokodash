@@ -68,7 +68,7 @@ public class StoreServiceImpl implements StoreService {
     }
     @Override
     public Product findById(Long id) {
-        return productRepository.findById(id).orElseThrow();
+        return productRepository.findById(id).orElseThrow(()->new RuntimeException("product by that id is not found"));
     }
     @Override
     public void deleteProduct(Long id) {

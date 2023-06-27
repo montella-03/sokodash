@@ -23,4 +23,12 @@ public class OrderController {
         return new ResponseEntity<>(storeService.addOrder(orderModel),HttpStatus.OK);
 
     }
+    @GetMapping
+    public ResponseEntity<List<Orders>> getOrders(){
+        return new ResponseEntity<>(storeService.getOrders(),HttpStatus.OK);
+    }
+    @GetMapping("/{id}")
+    public ResponseEntity<Orders> getOrder(@PathVariable Long id){
+        return new ResponseEntity<>(storeService.getOrder(id),HttpStatus.OK);
+    }
 }
