@@ -20,8 +20,8 @@ import jakarta.annotation.security.PermitAll;
 @PermitAll
 public class MainView extends VerticalLayout {
 private final StoreService storeService;
-    private Grid<Product> grid = new Grid<>(Product.class);
-    private TextField filterText = new TextField();
+    private final Grid<Product> grid = new Grid<>(Product.class);
+    private final TextField filterText = new TextField();
     private FormView form;
     ConfirmDialog confirmDialog = new ConfirmDialog();
     public MainView(StoreService storeService) {

@@ -35,11 +35,11 @@ public class MainLayout extends AppLayout {
 //            event.getSource().getUI().ifPresent(ui -> ui.navigate("login"));
         });
         logout.addClassNames("flex-end","mr-5");
-        HorizontalLayout header = new HorizontalLayout(new DrawerToggle(),image,logo,logout);
+       var header = new HorizontalLayout(new DrawerToggle(), logo, image,logout);
         header.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
+        header.setWidth("100%");
         header.expand(logo);
-        header.setWidthFull();
-        header.addClassNames("py-0","px-m");
+        header.addClassNames("bg-white","shadow","fixed","top-0","z-50");
         addToNavbar(header);
     }
 
@@ -114,7 +114,7 @@ public class MainLayout extends AppLayout {
     }
 
     private HorizontalLayout createProduct() {
-        RouterLink mainView = new RouterLink("PRODUCTS", MainView.class);
+        var mainView = new RouterLink("PRODUCTS", MainView.class);
         mainView.addClassNames("font-italic");
         mainView.setHighlightCondition(HighlightConditions.sameLocation());
         Icon icon = new Icon(VaadinIcon.CUBE);

@@ -7,16 +7,16 @@ import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.shared.Registration;
+import lombok.Getter;
 
 public class CustomerForm extends FormLayout {
-    TextField name= new TextField("name");
+    TextField name = new TextField("name");
     TextField email = new TextField("email");
     TextField address = new TextField("address");
 
@@ -44,8 +44,8 @@ public class CustomerForm extends FormLayout {
         close.addClickShortcut(Key.ESCAPE);
         save.addClickListener(event -> validateAndSave());
         delete.addClickListener(event -> fireEvent(new DeleteEvent(this, binder.getBean())));
-        close.addClickListener(event -> fireEvent(new CloseEvent(this)));
-        binder.addStatusChangeListener(e -> save.setEnabled(binder.isValid()));
+        close.addClickListener(e->fireEvent(new CloseEvent(this)));
+        binder.addStatusChangeListener(e->save.setEnabled(binder.isValid()));
         return new HorizontalLayout(save, delete, close);
 
 
@@ -62,21 +62,19 @@ public class CustomerForm extends FormLayout {
     }
 
 
+    @Getter
     public static abstract class CustomerFormEvent extends ComponentEvent<CustomerForm> {
-        private Customer customer;
+        private final Customer customer;
 
         protected CustomerFormEvent(CustomerForm source, Customer customer) {
             super(source, false);
             this.customer = customer;
         }
 
-        public Customer getCustomer() {
-            return customer;
-        }
     }
 
     public static class SaveEvent extends CustomerFormEvent {
-        SaveEvent(CustomerForm source,Customer customer) {
+        SaveEvent(CustomerForm source, Customer customer) {
             super(source, customer);
         }
     }
@@ -93,7 +91,7 @@ public class CustomerForm extends FormLayout {
         }
     }
 
-    public Registration addSaveListener(ComponentEventListener<SaveEvent> listener) {
+  public Registration saveListener(ComponentEventListener<SaveEvent> listener) {
         return addListener(SaveEvent.class, listener);
     }
 

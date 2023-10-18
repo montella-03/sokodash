@@ -71,7 +71,7 @@ public class CustomersView extends VerticalLayout {
     private void configureForm() {
         form = new CustomerForm();
         form.setWidth("25em");
-        form.addSaveListener( this::saveCustomer);
+        form.saveListener( this::saveCustomer);
         form.addDeleteListener(this::deleteCustomer);
         form.addCloseListener( e -> closeEditor());
     }
@@ -124,8 +124,8 @@ public class CustomersView extends VerticalLayout {
         grid.addClassName("product-grid");
         grid.setSizeFull();
         grid.setColumns("id","name","email", "address");
-        grid.getColumns().forEach(col -> col.setAutoWidth(true));
-        grid.asSingleSelect().addValueChangeListener(event -> editCustomer(event.getValue()));
+       grid.getColumns().forEach(col -> col.setAutoWidth(true));
+       grid.asSingleSelect().addValueChangeListener(event -> editCustomer(event.getValue()));
 
 
     }
