@@ -30,10 +30,10 @@ private final StoreService storeService;
 
         addClassName("list-view");
         setSizeFull();
-        configureGrid();
-        configureForm();
+        configureGrid();//just columns and single select listener.
+        configureForm();//add save,delete,close listener. addSaveListener(this::saveProduct)
 
-        add(getToolbar(),getContent());
+        add(getToolbar(),getContent()); // filter add, grid and form
         updateList();
         closeEditor();
         
@@ -46,7 +46,7 @@ private final StoreService storeService;
         filterText.setValueChangeMode(ValueChangeMode.LAZY);
         filterText.addValueChangeListener(e -> updateList());
 
-        Button addProductButton = new Button("Add product");
+        var addProductButton = new Button("Add product");
         addProductButton.addClickListener(click -> addProduct());
 
         var toolbar = new HorizontalLayout(filterText, addProductButton);
@@ -79,7 +79,7 @@ private final StoreService storeService;
     private void deleteProduct(FormView.DeleteEvent deleteEvent) {
 
         confirmDialog.setHeader("Confirm delete");
-        confirmDialog.setText("Are you sure you want to delete this product?");
+        confirmDialog.setText("Are you sure you want to delete this product");
         confirmDialog.open();
         confirmDialog.setConfirmButton("Delete", event -> {
             storeService.deleteProduct(deleteEvent.getProduct().getId());

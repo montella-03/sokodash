@@ -22,11 +22,12 @@ public class LoginView extends VerticalLayout implements BeforeEnterListener {
     }
     @Override
     public void beforeEnter(BeforeEnterEvent beforeEnterEvent) {
-        if (beforeEnterEvent.getLocation()
-                .getQueryParameters().
-                getParameters()
-                .containsKey("error")) {
-            loginForm.setError(true);
+       if(beforeEnterEvent.getLocation()
+               .getQueryParameters()
+               .getParameters()
+               .containsKey("error")){
+              loginForm.setError(true);
+
         }
 
     }

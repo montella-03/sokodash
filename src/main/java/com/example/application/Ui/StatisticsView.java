@@ -35,7 +35,7 @@ public class StatisticsView extends VerticalLayout {
         Chart chart = new Chart(ChartType.BUBBLE);
         chart.getConfiguration().setTitle("Total price of products");
         DataSeries dataSeries = new DataSeries();
-        storeService.findAll().forEach(product -> {
+        storeService.findAll(null).forEach(product -> {
             dataSeries.add(new DataSeriesItem(product.getProductName(),product.getPrice()*product.getQuantity()));
         });
         chart.getConfiguration().setSeries(dataSeries);

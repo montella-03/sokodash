@@ -75,13 +75,12 @@ public class StoreServiceImpl implements StoreService {
         productRepository.deleteById(id);
 
     }
-    @Override
-    public List<Product> findAll() {
-        return productRepository.findAll();
-    }
-//filtering products method
+
     @Override
     public List<Product> findAll(String search) {
+       if (search == null || search.isEmpty()) {
+            return productRepository.findAll();
+        }
         return productRepository.findAll().stream().filter((e)->{
             return e.getProductName().contains(search);
         }).collect(Collectors.toList());

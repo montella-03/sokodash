@@ -13,6 +13,7 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.shared.Registration;
+import lombok.Getter;
 
 public class FormView extends FormLayout {
     TextField productName = new TextField("productName");
@@ -40,13 +41,13 @@ public class FormView extends FormLayout {
 
         save.addClickShortcut(Key.ENTER);
         close.addClickShortcut(Key.ESCAPE);
-        save.addClickListener(event ->validateAndSave());
 
-
-
+        save.addClickListener(event -> validateAndSave());
         delete.addClickListener(event -> fireEvent(new DeleteEvent(this, productBinder.getBean())));
-        close.addClickListener(event -> fireEvent(new CloseEvent(this)));
-        productBinder.addStatusChangeListener(e -> save.setEnabled(productBinder.isValid()));
+        close.addClickListener(e->fireEvent(new CloseEvent(this)));
+
+        productBinder.addStatusChangeListener(e->save.setEnabled(productBinder.isValid()));
+
         return new HorizontalLayout(save, delete, close);
 
 
@@ -63,17 +64,15 @@ public class FormView extends FormLayout {
     }
 
 
+    @Getter
     public static abstract class ProductFormEvent extends ComponentEvent<FormView> {
-        private Product product;
+        private final Product product;
 
         protected ProductFormEvent(FormView source, Product product) {
             super(source, false);
             this.product = product;
         }
 
-        public Product getProduct() {
-            return product;
-        }
     }
 
     public static class SaveEvent extends ProductFormEvent {
